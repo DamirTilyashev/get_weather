@@ -3,10 +3,12 @@ require 'net/http'
 require 'json' 
 require './lib/WeatherDataFetcher.rb'
 require './lib/DataFormatter.rb'
+require 'yaml'
 
 puts "Введите название города:"
 CityName = gets.chomp
-uri = URI.parse('http://api.openweathermap.org/data/2.5/weather?q='+CityName+'&units=metric&lang=ru&APPID=b0280922209565629c0586af0b86af04')
+config = YAML.load_file('config.yml')
+uri = URI.parse('http://api.openweathermap.org/data/2.5/weather?q='+CityName+'&units=metric&lang=ru&APPID='+config['token'])
 JsonContext = WeatherDataFetcher.new(uri)
 context = JsonContext.FetchData
 if context
